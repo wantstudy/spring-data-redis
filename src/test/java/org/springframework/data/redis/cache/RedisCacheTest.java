@@ -264,14 +264,14 @@ public class RedisCacheTest extends AbstractNativeCacheTest<RedisTemplate> {
 		Object value = getValue();
 		ValueWrapper wrapper = redisCache.putIfAbsent(key, value);
 
-		assertThat(wrapper.get(), sameInstance(value));
+		assertThat(wrapper, nullValue());
 
-		ValueWrapper wrapper2 = redisCache.putIfAbsent(key, value);
+		wrapper = redisCache.putIfAbsent(key, getValue());
 
 		if (!(value instanceof Number)) {
-			assertThat(wrapper2.get(), not(sameInstance(value)));
+			assertThat(wrapper.get(), not(sameInstance(value)));
 		}
 
-		assertThat(wrapper2.get(), equalTo(value));
+		assertThat(wrapper.get(), equalTo(value));
 	}
 }
